@@ -1,1 +1,1 @@
-# Face-Recognition-api-grpc
+# Face-Recognition-api
