@@ -11,11 +11,13 @@ const image = require('./controllers/image');
 const db = knex({
   client: 'pg',
   connection: {
-    connectionString : 'https://face-rec.onrender.com',
-    user : 'ottie',
+    connectionString : process.env.DATABASE_URL,
+    ssl : {rejectUnauthorized: false},
+    host : process.env.DATABASE_HOST,
     port : 5432,
-    password : '7xp1KNoRRqMrJsQlaGsAXHPuwEwWNZoJ',
-    database : 'face_rec'
+    user : process.env.DATABASE_USER,
+    password : process.env.DATABASE_PWD,
+    database : process.env.DATABASE_DB
   }
 });
 
