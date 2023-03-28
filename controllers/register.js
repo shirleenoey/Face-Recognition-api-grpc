@@ -1,5 +1,3 @@
-
-
 const handleRegister = (req, res, db, bcrypt) => {
 	const { name, email, password } = req.body;
 	if (!email || !name || !password) {

@@ -12,7 +12,6 @@ const db = knex({
   client: 'pg',
   connection: {
     host : '127.0.0.1',
-    port : 5432, //database port
     user : 'postgres',
     password : 'OTTIElee7',
     database : 'FaceRec'

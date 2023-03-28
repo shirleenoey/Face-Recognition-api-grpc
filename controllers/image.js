@@ -1,29 +1,26 @@
-const {ClarifaiStub, grpc} = require("clarifai-nodejs-grpc");
+const PAT = '824b4d6ded4144b194d6531b6fb5560b'
+const USER_ID = 'test_6392';
+const APP_ID = 'test';
 
+const MODEL_ID = 'a403429f2ddf4b49b307e318f00e528b';
+const MODEL_VERSION_ID = '34ce21a40cc24b6b96ffee54aabff139';
+
+const {ClarifaiStub, grpc} = require("clarifai-nodejs-grpc");
 const stub = ClarifaiStub.grpc();
 
+
 const metadata = new grpc.Metadata();
-metadata.set("authorization", "Key 3722702fff174d77a64e4e087fdaaba2");
-
-// const Clarifai = require('clarifai');
-// console.log(Clarifai);
-
-// const app = new Clarifai.App({apiKey: '3722702fff174d77a64e4e087fdaaba2'});
+metadata.set("authorization", "Key " + PAT);
 
 const handleApiCall = (req, res) => {
 	stub.PostModelOutputs(
-		// {
-				// This is the model ID of a publicly available General model. You may use any other public or custom model ID.
-				// model_id: 'a403429f2ddf4b49b307e318f00e528b',
-				// inputs: [{data: {image: {url: req.body.input}}}]
-		// },
 		{
 			user_app_id: {
-					"user_id": 'shirleenoey',
-					"app_id": 'test'
+					"user_id": USER_ID,
+					"app_id": APP_ID
 			},
-			model_id: 'a403429f2ddf4b49b307e318f00e528b', 
-			version_id: '34ce21a40cc24b6b96ffee54aabff139',
+			model_id: MODEL_ID, 
+			version_id: MODEL_VERSION_ID,
 			inputs: [
 					{ data: { image: { url: req.body.input, allow_duplicate_url: true } } }
 			]
@@ -31,37 +28,23 @@ const handleApiCall = (req, res) => {
 		metadata,
 		(err, response) => {
 				if (err) {
-						console.log("Error: " + err);
-						return;
+					throw new Error(err);
 				}
 
 				if (response.status.code !== 10000) {
-						console.log("Received failed status: " + response.status.description + "\n" + response.status.details);
-						return;
+					throw new Error("Post model outputs failed, status: " + response.status.description);
 				}
 
-				console.log("Predicted concepts, with confidence values:")
-				for (const c of response.outputs[0].data.concepts) {
-						console.log(c.name + ": " + c.value);
+				const output = response.outputs[0];
+
+				console.log("Predicted concepts:");
+        for (const concept of output.data.concepts) {
+            console.log(concept.name + " " + concept.value);
 				}
 				res.json(response);
 		}
 	);
 }
-
-// const handleApiCall = (req, res) => {
-	// app.models
-	// 	.predict(
-	// 		{
-	// 		id: "a403429f2ddf4b49b307e318f00e528b",
-	// 		version: "34ce21a40cc24b6b96ffee54aabff139",
-	// 		},
-	// 		req.body.input)
-	// 	.then(data => {
-	// 		res.json(data);
-	// 	})
-	// 	.catch(err => res.status(400).json('unable to work with API'))
-// }
 
 const handleImage = (req, res, db) => {
 	const { id } = req.body;
