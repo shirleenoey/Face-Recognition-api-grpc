@@ -16,11 +16,8 @@ const db = knex({
     // user : 'face_rec_database_user',
     // password : 'FucPYo7MvLinb5wIAqjvrPEvnP9lM3vR',
     // database : 'face_rec_database'
-    host : process.env.DATABASE_HOST,
-    port : 5432,
-    user : process.env.DATABASE_USER,
-    password : process.env.DATABASE_PW,
-    database : process.env.DATABASE_DB
+    connectionString : 'postgres://face_rec_database_user:FucPYo7MvLinb5wIAqjvrPEvnP9lM3vR@dpg-cglskq3hp8u2dv4njscg-a/face_rec_database',
+    ssl : true
   }
 });
 
