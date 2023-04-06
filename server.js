@@ -12,7 +12,7 @@ const db = knex({
   client: 'pg',
   connection: {
     connectionString: 'postgres://face_rec_database_user:FucPYo7MvLinb5wIAqjvrPEvnP9lM3vR@dpg-cglskq3hp8u2dv4njscg-a/face_rec_database',
-    ssl: true,
+    ssl: {rejectUnauthorized: false},
     host: 'dpg-cglskq3hp8u2dv4njscg-a',
     port: 5432, //database port
     user: 'face_rec_database_user',
